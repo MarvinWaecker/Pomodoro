@@ -1,7 +1,5 @@
 import rumps
 
-# hiddenimports.extend(collect_submodules('pkg_resources'))
-
 class PomodoroApp(object):
     def __init__(self):
         self.config = {
@@ -10,8 +8,8 @@ class PomodoroApp(object):
             "pause": "Pause Timer",
             "continue": "Continue Timer",
             "stop": "Stop Timer",
-            "break_message": "Maaahles, time is up! Take a break.",
-            "interval": 3
+            "break_message": "Time is up! Take a break :)",
+            "interval": 25*60
         }
         self.app = rumps.App(self.config["app_name"])
         self.timer = rumps.Timer(self.on_tick, 1)
@@ -31,12 +29,12 @@ class PomodoroApp(object):
         mins = time_left // 60 if time_left >= 0 else time_left // 60 + 1
         secs = time_left % 60 if time_left >= 0 else (-1 * time_left) % 60
         if mins == 0 and time_left < 0:
-            rumps.notification(title=self.config["app_name"], subtitle=self.config["break_message"], message="")
+            rumps.notification(title=self.config["app_name"], subtitle=self.config["break_message"], message='')
             self.stop_timer()
             self.stop_button.set_callback(None)
         else:
             self.stop_button.set_callback(self.stop_timer)
-            self.app.title = "{:2d}:{:02d}".format(mins, secs)
+            self.app.title = '{:2d}:{:02d}'.format(mins, secs)
         sender.count += 1
 
     def start_timer(self, sender):
@@ -58,8 +56,6 @@ class PomodoroApp(object):
     def run(self):
         self.app.run()
 
-
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     app = PomodoroApp()
     app.run()
